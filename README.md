@@ -56,20 +56,19 @@ $cat /etc/init/rndis.conf
 
 description     "RNDIS interface init script"
 
-start on started udev
+start on started network-manager
 
 task
 
 script
-        echo 1 > /sys/devices/platform/tegra-otg/enable_device
-        echo 0 > /sys/devices/platform/tegra-otg/enable_host
+        echo 0 > /sys/devices/platform/tegra-otg/enable_device
         if [ -e /sys/class/android_usb/android0/enable ]; then
-                echo 0 > /sys/class/android_usb/android0/enable
+		echo 0 > /sys/class/android_usb/android0/enable
                 #/sys/class/android_usb/android0/iSerial
                 echo NVIDIA > /sys/class/android_usb/android0/f_rndis/manufacturer
                 echo 0955 > /sys/class/android_usb/android0/f_rndis/vendorID
                 echo 1 > /sys/class/android_usb/android0/f_rndis/wceis
-                echo d4:01:29:9d:10:e2 >  /sys/class/android_usb/android0/f_rndis/ethaddr
+		echo d4:01:29:9d:10:e2 >  /sys/class/android_usb/android0/f_rndis/ethaddr
                 echo NVIDIA > /sys/class/android_usb/android0/iManufacturer
                 echo L4T > /sys/class/android_usb/android0/iProduct
                 echo 0 >  /sys/class/android_usb/android0/enable
@@ -78,11 +77,12 @@ script
                 echo "rndis" > /sys/class/android_usb/android0/functions
                 echo 224 > /sys/class/android_usb/android0/bDeviceClass
                 echo 1 > /sys/class/android_usb/android0/enable
-                sleep 4
-                ifconfig rndis0 hw ether fa:de:73:32:0c:31
-                ifconfig rndis0 192.168.137.2 netmask 255.255.255.0 up
+		sleep 4
+		ifconfig rndis0 hw ether fa:de:73:32:0c:31
+		ifconfig rndis0 192.168.137.2 netmask 255.255.255.0 up
                 route add default gw 192.168.137.1 dev rndis0
         fi
+        echo 1 > /sys/devices/platform/tegra-otg/enable_device
 
 end script
 ```
