@@ -1,0 +1,13 @@
+# interfaces(5) file used by ifup(8) and ifdown(8)
+# Include files from /etc/network/interfaces.d:
+source-directory /etc/network/interfaces.d
+
+#auto rndis0
+iface rndis0 inet static
+    address 192.168.137.2
+    gateway 192.168.137.1
+    broadcast 192.168.137.255
+    netmask 255.255.255.0
+    hwaddress ether fa:de:73:32:0c:31
+    dns-nameservers 10.19.185.252 10.19.185.253 10.18.26.252
+    up route add default gw 192.168.137.1 dev rndis0
